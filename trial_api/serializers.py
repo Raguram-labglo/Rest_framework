@@ -31,12 +31,11 @@ class TodoSerializer(serializers.ModelSerializer):
         fields = ["task", "completed", "timestamp", "updated", "user"]
 
 class SnippetSerializer(serializers.HyperlinkedModelSerializer):
-  #  todo = TodoSerializer()
- #   todo = serializers.HyperlinkedRelatedField(many=True, view_name='snippetdetail', read_only=True)
-
+    
     class Meta:
         model = Snippet
-        fields = ("created","title","code","linenos","language","style","url")
+        fields = ('url', 'title','code','todo')
+        #extra_kwargs = {'url': {'view_name': 'snippet-details', 'lookup_field': 'todo'}}
 
     def create(self, validated_data):
         """
