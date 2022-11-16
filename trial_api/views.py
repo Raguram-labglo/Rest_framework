@@ -148,38 +148,6 @@ class Register(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = userSerializers
     
-# from rest_framework import generics, permissions
-# from rest_framework.response import Response
-# from knox.models import AuthToken
-# from .serializers import UserSerializer, RegisterSerializer
-
-# # Register API
-# class RegisterAPI(generics.GenericAPIView):
-#     serializer_class = RegisterSerializer
-
-#     def post(self, request, *args, **kwargs):
-#         serializer = self.get_serializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         user = serializer.save()
-#         return Response({
-#         "user": UserSerializer(user, context=self.get_serializer_context()).data,
-#         "token": AuthToken.objects.create(user)[1]
-#         })
-# from django.contrib.auth import login
-
-# from rest_framework import permissions
-# from rest_framework.authtoken.serializers import AuthTokenSerializer
-# from knox.views import LoginView
-
-# class LoginAPI(LoginView):
-#     permission_classes = (permissions.AllowAny,)
-
-#     def post(self, request, format=None):
-#         serializer = AuthTokenSerializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         user = serializer.validated_data['user']
-#         login(request, user)
-#         return super(LoginAPI, self).post(request, format=None)
 
 class ProductAPI(generics.ListCreateAPIView):
     queryset = Product.objects.all()
@@ -190,12 +158,7 @@ class ProductDetails(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProductSerializer
 
 class SnippetViewSet(viewsets.ModelViewSet):
-    """
-    This viewset automatically provides `list`, `create`, `retrieve`,
-    `update` and `destroy` actions.
 
-    Additionally we also provide an extra `highlight` action.
-    """
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -206,3 +169,18 @@ class SnippetViewSet(viewsets.ModelViewSet):
         print(snippet)
         return Response(snippet.highlighted)
     
+# class SnippetHighlight(generics.GenericAPIView):
+
+#     queryset = Snippet.objects.all()
+#     renderer_classes = [renderers.StaticHTMLRenderer]
+
+#     def get(self, request, *args, **kwargs):
+#         snippet = self.get_object()
+#         return Response(snippet.highlighted)
+
+class TodoHyper(viewsets.ModelViewSet):
+
+    queryset = Todo.objects.all()
+    serializer_class = TodoSerializer
+
+
